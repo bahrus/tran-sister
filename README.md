@@ -9,7 +9,8 @@ tran-sister (or t-s for short) is a web component that listens for events on one
 <tran-sister 
     on=click
     do-transform='{
-        ":host": [{"open":true,"expandAll":true,"collapseAll":false}]
+        ":host": [{"open":true,"expandAll":true,"collapseAll":false,"propx": ".lastEvent.keyCode"}]
     }'
+    -clear-cache
 ></tran-sister>
 ```
