@@ -1,20 +1,20 @@
 export interface TranSisterProps{
-    on: string,
-    observe: string,
+    //on: string,
+    //observe: string,
     transform: any,
     cacheIsStale: boolean;
-    previousOn?: string;
+    //previousOn?: string;
 
     /**
      * Only act on event if target element css-matches the expression specified by this attribute.
      * @attr
      */
-    ifTargetMatches: string;
+    //ifTargetMatches: string;
 
     /**
      * A Boolean indicating that events of this type will be dispatched to the registered listener before being dispatched to any EventTarget beneath it in the DOM tree.
     */
-    capture: boolean;
+    //capture: boolean;
 
     lastEvent?: Event;
 
@@ -24,9 +24,9 @@ export interface TranSisterProps{
      */
     noblock: boolean;
 
-    observeClosest: string;
+    //observeClosest: string;
 
-    observeHost: boolean;
+    //observeHost: boolean;
 
     host: HTMLElement;
 
