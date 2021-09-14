@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "trans-render": "0.0.405",
-    "on-to-me": "0.0.35"
+    "on-to-me": "0.0.37"
   },
   "devDependencies": {
     "@skypack/package-check": "0.2.2",

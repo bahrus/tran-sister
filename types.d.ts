@@ -36,10 +36,7 @@ export interface TranSisterProps{
 }
 
 export interface TranSisterActions{
-    locateAndListen(self: this): void;
-    doEvent(self: this): {cnt: number}; 
-    getHost(self: this): {host: HTMLElement};   
-    handleEvent: (e: Event) => void;
+
     applyTransform(self: this): void;
     clearCache(self:this): void;
 }
