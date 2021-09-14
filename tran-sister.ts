@@ -1,13 +1,16 @@
 import {TranSisterActions, TranSisterProps} from './types';
-import { transform,  } from 'trans-render/lib/transform.js';
+import {NotifyMixin, INotifyPropInfo, INotifyMixin} from 'trans-render/lib/mixins/notify.js';
+import { transform as xform} from 'trans-render/lib/transform.js';
 import { PE } from 'trans-render/lib/PE.js';
 import { SplitText } from 'trans-render/lib/SplitText.js';
 import { Action, PropInfo, RenderContext, RenderOptions } from 'trans-render/lib/types.js';
 import {CE} from 'trans-render/lib/CE.js';
 import {getPreviousSib, passVal, nudge, getProp, convert} from 'on-to-me/on-to-me.js';
+
 export class TranSisterCore extends HTMLElement implements TranSisterActions{
 
     __ctx: RenderContext | undefined;
+    #cache: {[key: string]: NodeListOf<Element>} = {};
 
     //identical to pass-down
     locateAndListen({on, _wr, previousOn, handleEvent, parentElement, ifTargetMatches}: this) {
@@ -56,24 +59,18 @@ export class TranSisterCore extends HTMLElement implements TranSisterActions{
         return true;
     }
 
-    doEvent({lastEvent, noblock}: this) {
+    doEvent({lastEvent, noblock, cnt}: this) {
         this.setAttribute('status', '🌩️');
         if(!noblock && lastEvent!.stopPropagation) lastEvent!.stopPropagation();
-
-        const host = this.getHost(this);
-
-        //holding on to lastEvent could introduce memory leak
-        this.lastEvent = undefined; //wtf? why does't delete work?
-        this.setAttribute('status', '👂');
-        return {host};
+        return {cnt: cnt + 1};
     }
 
-    doTransform({host, doTransform}: this){
+    applyTransform({host, transform, lastEvent}: this){
         if(this.__ctx === undefined){
             this.__ctx = {
-                match: doTransform,
-                host: this,
-                queryCache: this as any as {[key: string]: NodeListOf<Element>},
+                match: transform,
+                host: host,
+                queryCache: this.#cache,
                 postMatch: [
                     {
                         rhsType: Array,
@@ -93,10 +90,14 @@ export class TranSisterCore extends HTMLElement implements TranSisterActions{
             };
             this.__ctx.ctx = this.__ctx;
         }
-        transform(host!, this.__ctx);
+        const hostLastEvent = (<any>host).lastEvent;
+        (<any>host).lastEvent = lastEvent;
+        xform(host!, this.__ctx);
+        (<any>host).lastEvent = hostLastEvent;
+        this.setAttribute('status', '👂');
     }
 
-    getHost({}: this){
+    getHost({}: this): {host: HTMLElement}{
         let host = (<any>this.getRootNode()).host;
         if(host === undefined){
             host = this.parentElement;
@@ -131,11 +132,62 @@ export class TranSisterCore extends HTMLElement implements TranSisterActions{
         this._wr = new WeakRef(elementToObserve);
         return elementToObserve;
     }
+
+    clearCache({}: this){
+        this.#cache = {};
+        this.cacheIsStale = false;
+    }
 }
 export interface TranSisterCore extends TranSisterProps {}
-
-const ce = new CE<TranSisterProps, TranSisterActions>({
+const strProp: PropInfo = {
+    type: 'String'
+}
+const ce = new CE<TranSisterProps, TranSisterActions & INotifyMixin, INotifyPropInfo>({
     config: {
-        tagName: 'trans-sister'
-    }
+        tagName: 'tran-sister',
+        propDefaults:{
+            cacheIsStale: false,
+            capture: false,
+            noblock: false,
+            observeHost: false,
+            isC: true,
+            cnt: 0,
+        },
+        propInfo:{
+            on: strProp, observe: strProp,
+            previousOn: strProp, ifTargetMatches: strProp, observeClosest: strProp,
+            cnt:{
+                notify:{
+                    reflect:{
+                        asAttr: true,
+                    }
+                }
+            }
+        },
+        actions:{
+            locateAndListen:{
+                ifAllOf: ['isC', 'on'],
+                ifKeyIn: ['observe', 'ifTargetMatches', 'observeHost']
+            },
+            doEvent:{
+                ifAllOf: ['lastEvent'],
+            },
+            getHost:{
+                ifAllOf: ['isC'],
+            },
+            applyTransform:{
+                ifAllOf: ['host', 'transform', 'cnt'],
+                setFree: ['lastEvent'],
+            },
+            clearCache:{
+                ifAllOf: ['cacheIsStale']
+            }
+        },
+        style:{
+            display:'none',
+        }
+    },
+    superclass: TranSisterCore
 });
+
+export const TranSister = ce.classDef!;

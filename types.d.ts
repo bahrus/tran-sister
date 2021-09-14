@@ -1,20 +1,20 @@
 export interface TranSisterProps{
     on: string,
     observe: string,
-    doTransform: any,
-    clearCache: boolean;
+    transform: any,
+    cacheIsStale: boolean;
     previousOn?: string;
 
     /**
      * Only act on event if target element css-matches the expression specified by this attribute.
      * @attr
      */
-    ifTargetMatches?: string;
+    ifTargetMatches: string;
 
     /**
      * A Boolean indicating that events of this type will be dispatched to the registered listener before being dispatched to any EventTarget beneath it in the DOM tree.
     */
-    capture?: boolean;
+    capture: boolean;
 
     lastEvent?: Event;
 
@@ -22,15 +22,24 @@ export interface TranSisterProps{
      * Don't block event propagation.
      * @attr
      */
-    noblock?: boolean;
+    noblock: boolean;
 
-    observeClosest?: string;
+    observeClosest: string;
 
-    observeHost?: boolean;
+    observeHost: boolean;
 
-    host?: HTMLElement;
+    host: HTMLElement;
+
+    isC: boolean;
+
+    cnt: number;
 }
 
 export interface TranSisterActions{
     locateAndListen(self: this): void;
+    doEvent(self: this): {cnt: number}; 
+    getHost(self: this): {host: HTMLElement};   
+    handleEvent: (e: Event) => void;
+    applyTransform(self: this): void;
+    clearCache(self:this): void;
 }
