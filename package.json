@@ -1,8 +1,27 @@
 {
   "name": "tran-sister",
   "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
+  "description": "A web component that listens for events on a sibling, and, when fired, performs transforms on the host.",
+  "main": "tran-sister.js",
+  "module": "tran-sister.js",
+  "keywords": [
+    "web components",
+    "web component",
+    "custom elements",
+    "custom element",
+    "bind",
+    "dom-bind"
+  ],
+  "exports": {
+    ".": "./tran-sister",
+    "./tran-sister": "./tran-sister"
+  },
+  "files": [
+    "t*.*",
+    "types.d.ts",
+    "custom-elements.json"
+  ],
+  "types": "./types.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "package-check": "package-check",
@@ -27,5 +46,6 @@
   "bugs": {
     "url": "https://github.com/bahrus/tran-sister/issues"
   },
-  "homepage": "https://github.com/bahrus/tran-sister#readme"
+  "homepage": "https://github.com/bahrus/tran-sister#readme",
+  "customElements": "custom-elements.json"
 }

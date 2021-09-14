@@ -1,0 +1,316 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "tran-sister.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "TranSisterCore",
+          "members": [
+            {
+              "kind": "field",
+              "name": "__ctx"
+            },
+            {
+              "kind": "field",
+              "name": "#cache",
+              "privacy": "private",
+              "type": {
+                "text": "object"
+              },
+              "default": "{}"
+            },
+            {
+              "kind": "method",
+              "name": "locateAndListen",
+              "parameters": [
+                {
+                  "name": "{ on, _wr, previousOn, handleEvent, parentElement, ifTargetMatches }"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "attach",
+              "parameters": [
+                {
+                  "name": "elementToObserve"
+                },
+                {
+                  "name": "{ on, handleEvent, capture }"
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "handleEvent"
+            },
+            {
+              "kind": "method",
+              "name": "filterEvent",
+              "parameters": [
+                {
+                  "name": "e"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "doEvent",
+              "parameters": [
+                {
+                  "name": "{ lastEvent, noblock, cnt }"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "applyTransform",
+              "parameters": [
+                {
+                  "name": "{ host, transform, lastEvent }"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getHost",
+              "parameters": [
+                {
+                  "name": "{}"
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "_wr"
+            },
+            {
+              "kind": "field",
+              "name": "observedElement"
+            },
+            {
+              "kind": "method",
+              "name": "clearCache",
+              "parameters": [
+                {
+                  "name": "{}"
+                }
+              ]
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "customElement": true
+        },
+        {
+          "kind": "variable",
+          "name": "TranSister"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TranSisterCore",
+          "declaration": {
+            "name": "TranSisterCore",
+            "module": "tran-sister.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "TranSister",
+          "declaration": {
+            "name": "TranSister",
+            "module": "tran-sister.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "tran-sister.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "TranSisterCore",
+          "members": [
+            {
+              "kind": "field",
+              "name": "__ctx",
+              "type": {
+                "text": "RenderContext | undefined"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "#cache",
+              "privacy": "private",
+              "type": {
+                "text": "{[key: string]: NodeListOf<Element>}"
+              },
+              "default": "{}"
+            },
+            {
+              "kind": "method",
+              "name": "locateAndListen",
+              "parameters": [
+                {
+                  "name": "{on, _wr, previousOn, handleEvent, parentElement, ifTargetMatches}",
+                  "type": {
+                    "text": "this"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "attach",
+              "parameters": [
+                {
+                  "name": "elementToObserve",
+                  "type": {
+                    "text": "Element"
+                  }
+                },
+                {
+                  "name": "{on, handleEvent, capture}",
+                  "type": {
+                    "text": "this"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "handleEvent"
+            },
+            {
+              "kind": "method",
+              "name": "filterEvent",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "doEvent",
+              "parameters": [
+                {
+                  "name": "{lastEvent, noblock, cnt}",
+                  "type": {
+                    "text": "this"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "applyTransform",
+              "parameters": [
+                {
+                  "name": "{host, transform, lastEvent}",
+                  "type": {
+                    "text": "this"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getHost",
+              "return": {
+                "type": {
+                  "text": "{host: HTMLElement}"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "{}",
+                  "type": {
+                    "text": "this"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "_wr",
+              "type": {
+                "text": "WeakRef<Element> | undefined"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "observedElement",
+              "type": {
+                "text": "Element | null"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "clearCache",
+              "parameters": [
+                {
+                  "name": "{}",
+                  "type": {
+                    "text": "this"
+                  }
+                }
+              ]
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "customElement": true
+        },
+        {
+          "kind": "variable",
+          "name": "TranSister",
+          "default": "ce.classDef!"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TranSisterCore",
+          "declaration": {
+            "name": "TranSisterCore",
+            "module": "tran-sister.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "TranSister",
+          "declaration": {
+            "name": "TranSister",
+            "module": "tran-sister.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "types.d.ts",
+      "declarations": [],
+      "exports": []
+    }
+  ]
+}
