@@ -13,8 +13,8 @@
     "dom-bind"
   ],
   "exports": {
-    ".": "./tran-sister",
-    "./tran-sister": "./tran-sister"
+    ".": "./tran-sister.js",
+    "./tran-sister.js": "./tran-sister.js"
   },
   "files": [
     "t*.*",
