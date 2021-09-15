@@ -1,6 +1,6 @@
 {
   "name": "tran-sister",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A web component that listens for events on a sibling, and, when fired, performs transforms on the host.",
   "main": "tran-sister.js",
   "module": "tran-sister.js",
