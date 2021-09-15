@@ -5,10 +5,10 @@
   "main": "tran-sister.js",
   "module": "tran-sister.js",
   "keywords": [
-    "web components",
-    "web component",
-    "custom elements",
-    "custom element",
+    "web-components",
+    "web-component",
+    "custom-elements",
+    "custom-element",
     "bind",
     "dom-bind"
   ],
@@ -29,8 +29,8 @@
     "doc": "custom-elements-manifest analyze"
   },
   "dependencies": {
-    "trans-render": "0.0.405",
-    "on-to-me": "0.0.37"
+    "trans-render": "0.0.406",
+    "on-to-me": "0.0.39"
   },
   "devDependencies": {
     "@skypack/package-check": "0.2.2",
