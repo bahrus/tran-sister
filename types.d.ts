@@ -36,7 +36,7 @@ export interface TranSisterProps{
 }
 
 export interface TranSisterActions{
-
+    doEvent(self: this): void;
     applyTransform(self: this): void;
     clearCache(self:this): void;
 }

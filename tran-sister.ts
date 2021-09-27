@@ -11,7 +11,7 @@ import {OnMixinProps, OnMixinActions} from 'on-to-me/types';
 export class TranSisterCore extends HTMLElement implements TranSisterActions{
 
     __ctx: RenderContext | undefined;
-    #cache: {[key: string]: NodeListOf<Element>} = {};
+    #cache = new WeakMap<Element, {[key: string]: NodeListOf<Element>}>();
 
 
 
@@ -56,7 +56,7 @@ export class TranSisterCore extends HTMLElement implements TranSisterActions{
 
 
     clearCache({}: this){
-        this.#cache = {};
+        new WeakMap<Element, {[key: string]: NodeListOf<Element>}>();
         this.cacheIsStale = false;
     }
 }

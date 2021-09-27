@@ -6,7 +6,7 @@ import { CE } from 'trans-render/lib/CE.js';
 import { OnMixin } from 'on-to-me/on-mixin.js';
 export class TranSisterCore extends HTMLElement {
     __ctx;
-    #cache = {};
+    #cache = new WeakMap();
     doEvent({ lastEvent, noblock, cnt }) {
         this.setAttribute('status', '🌩️');
         if (!noblock && lastEvent.stopPropagation)
@@ -45,7 +45,7 @@ export class TranSisterCore extends HTMLElement {
         this.setAttribute('status', '👂');
     }
     clearCache({}) {
-        this.#cache = {};
+        new WeakMap();
         this.cacheIsStale = false;
     }
 }
