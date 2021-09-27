@@ -21,7 +21,7 @@ export class TranSisterCore extends HTMLElement implements TranSisterActions{
         return {cnt: cnt + 1};
     }
 
-    applyTransform({host, transform, lastEvent}: this){
+    applyTransform({host, transform, lastEvent, debug}: this){
         if(this.__ctx === undefined){
             this.__ctx = {
                 match: transform,
@@ -48,7 +48,8 @@ export class TranSisterCore extends HTMLElement implements TranSisterActions{
         }
         const hostLastEvent = (<any>host).lastEvent;
         (<any>host).lastEvent = lastEvent;
-        xform(host!, this.__ctx);
+        if(debug) debugger;
+        xform(host.shadowRoot || host!, this.__ctx);
         (<any>host).lastEvent = hostLastEvent;
         this.setAttribute('status', '👂');
     }
@@ -74,6 +75,7 @@ const ce = new CE<TranSisterProps & OnMixinProps, TranSisterActions & OnMixinAct
             observeHost: false,
             isC: true,
             cnt: 0,
+            debug: false,
         },
         propInfo:{
             on: strProp, observe: strProp,

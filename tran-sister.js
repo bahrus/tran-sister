@@ -13,7 +13,7 @@ export class TranSisterCore extends HTMLElement {
             lastEvent.stopPropagation();
         return { cnt: cnt + 1 };
     }
-    applyTransform({ host, transform, lastEvent }) {
+    applyTransform({ host, transform, lastEvent, debug }) {
         if (this.__ctx === undefined) {
             this.__ctx = {
                 match: transform,
@@ -40,7 +40,9 @@ export class TranSisterCore extends HTMLElement {
         }
         const hostLastEvent = host.lastEvent;
         host.lastEvent = lastEvent;
-        xform(host, this.__ctx);
+        if (debug)
+            debugger;
+        xform(host.shadowRoot || host, this.__ctx);
         host.lastEvent = hostLastEvent;
         this.setAttribute('status', '👂');
     }
@@ -62,6 +64,7 @@ const ce = new CE({
             observeHost: false,
             isC: true,
             cnt: 0,
+            debug: false,
         },
         propInfo: {
             on: strProp, observe: strProp,

@@ -33,6 +33,8 @@ export interface TranSisterProps{
     isC: boolean;
 
     cnt: number;
+
+    debug: boolean;
 }
 
 export interface TranSisterActions{
