@@ -13,10 +13,12 @@ export class TranSisterCore extends HTMLElement {
             lastEvent.stopPropagation();
         return { cnt: cnt + 1 };
     }
-    applyTransform({ host, transform, lastEvent, debug }) {
+    applyTransform({ host, transform, lastEvent, debug, transformFromClosest, initTransform }) {
+        let firstTime = false;
         if (this.__ctx === undefined) {
+            firstTime = true;
             this.__ctx = {
-                match: transform,
+                match: initTransform || transform,
                 host: host,
                 queryCache: this.#cache,
                 postMatch: [
@@ -38,17 +40,29 @@ export class TranSisterCore extends HTMLElement {
             };
             this.__ctx.ctx = this.__ctx;
         }
+        if (!firstTime) {
+            this.__ctx.match = transform;
+        }
         const hostLastEvent = host.lastEvent;
         host.lastEvent = lastEvent;
         if (debug)
             debugger;
-        xform(host.shadowRoot || host, this.__ctx);
+        const target = transformFromClosest !== '' ?
+            this.closest(transformFromClosest)
+            : host.shadowRoot || host;
+        if (target === null)
+            throw 'Could not locate target';
+        xform(target, this.__ctx);
         host.lastEvent = hostLastEvent;
         this.setAttribute('status', '👂');
     }
     clearCache({}) {
         new WeakMap();
+        this.__ctx = undefined;
         this.cacheIsStale = false;
+    }
+    doInitTransform({}) {
+        this.cnt++;
     }
 }
 const strProp = {
@@ -65,6 +79,7 @@ const ce = new CE({
             isC: true,
             cnt: 0,
             debug: false,
+            transformFromClosest: ''
         },
         propInfo: {
             on: strProp, observe: strProp,
@@ -94,6 +109,9 @@ const ce = new CE({
             },
             clearCache: {
                 ifAllOf: ['cacheIsStale']
+            },
+            doInitTransform: {
+                ifAllOf: ['initTransform']
             }
         },
         style: {

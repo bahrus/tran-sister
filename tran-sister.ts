@@ -13,18 +13,18 @@ export class TranSisterCore extends HTMLElement implements TranSisterActions{
     __ctx: RenderContext | undefined;
     #cache = new WeakMap<Element, {[key: string]: NodeListOf<Element>}>();
 
-
-
     doEvent({lastEvent, noblock, cnt}: this) {
         this.setAttribute('status', '🌩️');
         if(!noblock && lastEvent!.stopPropagation) lastEvent!.stopPropagation();
         return {cnt: cnt + 1};
     }
 
-    applyTransform({host, transform, lastEvent, debug}: this){
+    applyTransform({host, transform, lastEvent, debug, transformFromClosest, initTransform}: this){
+        let firstTime = false;
         if(this.__ctx === undefined){
+            firstTime = true;
             this.__ctx = {
-                match: transform,
+                match: initTransform || transform,
                 host: host,
                 queryCache: this.#cache,
                 postMatch: [
@@ -46,10 +46,17 @@ export class TranSisterCore extends HTMLElement implements TranSisterActions{
             };
             this.__ctx.ctx = this.__ctx;
         }
+        if(!firstTime){
+            this.__ctx.match = transform;
+        }
         const hostLastEvent = (<any>host).lastEvent;
         (<any>host).lastEvent = lastEvent;
         if(debug) debugger;
-        xform(host.shadowRoot || host!, this.__ctx);
+        const target = transformFromClosest !== '' ?
+            this.closest(transformFromClosest)
+            : host.shadowRoot || host!;
+        if(target === null) throw 'Could not locate target';
+        xform(target, this.__ctx);
         (<any>host).lastEvent = hostLastEvent;
         this.setAttribute('status', '👂');
     }
@@ -58,7 +65,12 @@ export class TranSisterCore extends HTMLElement implements TranSisterActions{
 
     clearCache({}: this){
         new WeakMap<Element, {[key: string]: NodeListOf<Element>}>();
+        this.__ctx = undefined;
         this.cacheIsStale = false;
+    }
+
+    doInitTransform({}: this){
+        this.cnt++;
     }
 }
 export interface TranSisterCore extends TranSisterProps {}
@@ -76,6 +88,7 @@ const ce = new CE<TranSisterProps & OnMixinProps, TranSisterActions & OnMixinAct
             isC: true,
             cnt: 0,
             debug: false,
+            transformFromClosest: ''
         },
         propInfo:{
             on: strProp, observe: strProp,
@@ -105,6 +118,9 @@ const ce = new CE<TranSisterProps & OnMixinProps, TranSisterActions & OnMixinAct
             },
             clearCache:{
                 ifAllOf: ['cacheIsStale']
+            },
+            doInitTransform:{
+                ifAllOf: ['initTransform']
             }
         },
         style:{

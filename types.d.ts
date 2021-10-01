@@ -2,6 +2,7 @@ export interface TranSisterProps{
     //on: string,
     //observe: string,
     transform: any,
+    initTransform: any,
     cacheIsStale: boolean;
     //previousOn?: string;
 
@@ -35,10 +36,13 @@ export interface TranSisterProps{
     cnt: number;
 
     debug: boolean;
+
+    transformFromClosest: string;
 }
 
 export interface TranSisterActions{
     doEvent(self: this): void;
     applyTransform(self: this): void;
     clearCache(self:this): void;
+    doInitTransform(self: this): void;
 }
